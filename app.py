@@ -109,9 +109,7 @@ Live Web Search Context (Use this for up-to-date facts or missing details):
                     "content": enhanced_prompt,  
                 }],
             )
-            responses[model] = completion.choices[0].message.content
-        except Exception as e:
-        )
+        
         responses[model] = completion.choices[0].message.content
       except Exception as e:
         responses[model] = f"Error: {str(e)}"
