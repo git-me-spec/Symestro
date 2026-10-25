@@ -1,6 +1,18 @@
 import os
 from openai import OpenAI
 import streamlit as st
+from duckduckgo_search import DDGS  # <--- Add on Line 4
+
+# Function to search the web automatically
+def search_web(query):
+    try:
+        with DDGS() as ddgs:
+            results = [r for r in ddgs.text(query, max_results=3)]
+            if results:
+                return "\n".join([f"Source: {r.get('title')} ({r.get('href')})\nSummary: {r.get('body')}" for r in results])
+    except Exception:
+        pass
+    return "No web search results available."
 
 # Streamlit Page Configuration
 st.set_page_config(
@@ -35,14 +47,24 @@ if st.button("Resonate & Generate Answer"):
   elif not user_prompt:
     st.warning("Please enter a prompt first.")
   else:
+    # 1. Fetch live web search results first
+    with st.spinner("Searching the web for live context..."):
+        search_context = search_web(user_prompt)
+        
+    # 2. Combine the user's question with the live web search context
+    enhanced_prompt = f"""User Question: {user_prompt}
+
+Live Web Search Context (Use this for up-to-date facts or missing details):
+{search_context}"""
+
     # Initialize OpenRouter Client with user-provided key
     client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key_input)
 
     models = [
-       "nvidia/nemotron-3.5-lightning:free",
-       "thinkingmachines/inkling-small:free",
-       "dots-studio/dots-3-note-preview:free",
-   ]
+        "nvidia/nemotron-3.5-lightning:free",
+        "thinkingmachines/inkling-small:free",
+        "dots-studio/dots-3-note-preview:free",
+    ]
 
     responses = {}
     status_container = st.status(
@@ -50,14 +72,17 @@ if st.button("Resonate & Generate Answer"):
     )
 
     for model in models:
-      try:
-        status_container.write(f"Querying `{model}`...")
-        completion = client.chat.completions.create(
-            model=model,
-            messages=[{
-                "role": "user",
-                "content": user_prompt,
-            }],
+        try:
+            status_container.write(f"Querying `{model}`...")
+            completion = client.chat.completions.create(
+                model=model,
+                messages=[{
+                    "role": "user",
+                    "content": enhanced_prompt,  
+                }],
+            )
+            responses[model] = completion.choices[0].message.content
+        except Exception as e:
         )
         responses[model] = completion.choices[0].message.content
       except Exception as e:
