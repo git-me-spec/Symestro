@@ -98,21 +98,20 @@ Live Web Search Context (Use this for up-to-date facts or missing details):
     status_container = st.status(
         "Consulting multiple AI models...", expanded=True
     )
-
-    for model in models:
+   for model in models:
         try:
             status_container.write(f"Querying `{model}`...")
             completion = client.chat.completions.create(
                 model=model,
                 messages=[{
                     "role": "user",
-                    "content": enhanced_prompt,  
+                    "content": enhanced_prompt,
                 }],
             )
-        
-        responses[model] = completion.choices[0].message.content
-      except Exception as e:
-        responses[model] = f"Error: {str(e)}"
+            responses[model] = completion.choices[0].message.content
+        except Exception as e:
+            responses[model] = f"Error: {str(e)}"
+    
 
     status_container.write("Synthesizing final response...")
 
