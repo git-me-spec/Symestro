@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 import streamlit as st
-from duckduckgo_search import DDGS  # <--- Add on Line 4
+from duckduckgo_search import DDGS  
 
 # Function to search the web automatically
 def search_web(query):
@@ -13,7 +13,35 @@ def search_web(query):
     except Exception:
         pass
     return "No web search results available."
+# Custom styling for the main button
+st.markdown("""
+<style>
+/* Style all primary action buttons in Streamlit */
+div.stButton > button {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 28px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    box-shadow: 0px 4px 15px rgba(168, 85, 247, 0.4) !important;
+    transition: all 0.3s ease-in-out !important;
+    width: 100% !important;
+}
 
+/* Hover and active state animations */
+div.stButton > button:hover {
+    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 0px 6px 20px rgba(236, 72, 153, 0.6) !important;
+    cursor: pointer !important;
+}
+
+div.stButton > button:active {
+    transform: translateY(1px) scale(0.99) !important;
+}
+</style>
+""", unsafe_allow_html=True)
 # Streamlit Page Configuration
 st.set_page_config(
     page_title="Symestro - AI Synthesis Platform", page_icon="🪄", layout="wide"
