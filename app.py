@@ -68,7 +68,11 @@ user_prompt = st.text_area(
     "What do you want to ask the AI collective?",
     placeholder="e.g., Explain quantum computing in simple terms.",
 )
-
+models = [
+    "nvidia/nemotron-3.5-lightning:free",
+    "thinkingmachines/inkling-small:free",
+    "dots-studio/dots-3-note-preview:free",
+]
 if st.button("Resonate & Generate Answer"):
   if not api_key_input:
     st.error("Please enter your OpenRouter API Key in the sidebar.")
@@ -87,12 +91,6 @@ Live Web Search Context (Use this for up-to-date facts or missing details):
 
     # Initialize OpenRouter Client with user-provided key
     client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key_input)
-
-    models = [
-        "nvidia/nemotron-3.5-lightning:free",
-        "thinkingmachines/inkling-small:free",
-        "dots-studio/dots-3-note-preview:free",
-    ]
 
 responses = {}
 status_container = st.status(
