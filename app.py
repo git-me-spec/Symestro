@@ -5,22 +5,56 @@ from duckduckgo_search import DDGS
 # Page Config & Custom CSS
 st.set_page_config(page_title="Symestro", page_icon="⚡", layout="wide")
 
-# Custom CSS for modern UI and buttons
+# Dynamic animated gradient background + modern glassmorphism UI
 st.markdown("""
     <style>
-    .stButton>button {
-        width: 100%;
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        color: white;
-        font-weight: 600;
-        border: none;
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
+    /* Animated Gradient Background for Streamlit Container */
+    .stApp {
+        background: linear-gradient(-45deg, #0a0a16, #120e29, #1a103c, #0d1117);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #f3f4f6;
     }
-    .stButton>button:hover {
-        opacity: 0.9;
-        transform: translateY(-1px);
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Glassmorphism styling for sidebar and main cards */
+    section[data-testid="stSidebar"] {
+        background-color: rgba(15, 23, 42, 0.65) !important;
+        backdrop-filter: blur(12px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Style primary action button with pulsating neon hover */
+    div.stButton > button {
+        width: 100% !important;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        border: none !important;
+        padding: 12px 24px !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+        transition: all 0.3s ease-in-out !important;
+    }
+
+    div.stButton > button:hover {
+        transform: translateY(-2px) scale(1.01) !important;
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5) !important;
+        cursor: pointer !important;
+    }
+
+    /* Text area and file uploader styling */
+    .stTextArea textarea, .stFileUploader {
+        background-color: rgba(22, 27, 34, 0.7) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 10px !important;
+        color: #e5e7eb !important;
     }
     </style>
 """, unsafe_allow_html=True)
