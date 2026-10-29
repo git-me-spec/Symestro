@@ -3,7 +3,7 @@ from openai import OpenAI
 from duckduckgo_search import DDGS
 
 # Page Config & Custom CSS
-st.set_page_config(page_title="Symestro - AI Collective", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Symestro", page_icon="ͳͱ", layout="wide")
 
 # Custom CSS for modern UI and buttons
 st.markdown("""
